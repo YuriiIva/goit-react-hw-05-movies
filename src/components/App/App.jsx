@@ -1,17 +1,13 @@
 import { useState, useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
-import { fetchFilms, fetchSearchFilms } from "../../services/Api";
+
 import HomePage from "../Pages/HomePage/HomePage";
 import Header from "../common/Header/Header";
 import Movies from "../Pages/MoviesPage/MoviesPage";
+import NoFoundPage from "../Pages/NoFoundPage/NoFoundPage";
+import MovieDetailsPage from "../Pages/MovieDetailsPage/MovieDetailsPage";
 
 const App = () => {
-  const [films, setFilms] = useState([]);
-  const [movieId, setMovieId] = useState(null);
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [isMovieOpen, setIsMovieOpen] = useState(false);
-
   // const REQUESTS = {
   //   TRANDING: "/trending/movie/day",
   //   // SEARCH: '/search/movie',
@@ -19,30 +15,6 @@ const App = () => {
   //   CREDITS: `/movie/${movieId}/credits`,
   //   REVIEWS: `/movie/${movieId}/reviews`,
   // };
-
-  useEffect(() => {
-    const getFilms = async () => {
-      setIsLoading(true);
-      try {
-        const { results } = await fetchFilms();
-        setFilms([...results]);
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    getFilms();
-  }, []);
-
-  const openMovie = (e) => {
-    e.preventDefault();
-    setIsMovieOpen(true);
-    // setMovieId(idFilm);
-    // console.log("movieId", movieId);
-    // const users = fetchFilms(REQUESTS.INFO);
-    // console.log("users", users);
-  };
 
   //   const onCloseMovie = () => {
   //     setIsMovieOpen(false);
@@ -53,10 +25,16 @@ const App = () => {
       <Header />
       <Switch>
         <Route exact path="/">
-          <HomePage films={films} openMovie={openMovie} />
+          <HomePage />
         </Route>
-        <Route path="/movies">
+        <Route exact path="/movies">
           <Movies />
+        </Route>
+        <Route path="/movies/:movieId">
+          <MovieDetailsPage />
+        </Route>
+        <Route>
+          <NoFoundPage />
         </Route>
       </Switch>
     </div>
