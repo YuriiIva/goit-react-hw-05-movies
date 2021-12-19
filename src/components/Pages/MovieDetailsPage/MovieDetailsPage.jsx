@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Route, useParams, Switch } from "react-router-dom";
+import { Route, useParams, Switch, Link } from "react-router-dom";
 
 import Cast from "./Cast/Cast";
 import Reviews from "./Reviews/Reviews";
@@ -25,22 +25,37 @@ const MovieDetailsPage = ({ onCloseMovie }) => {
 
   return (
     <div className={s.modal}>
-      <div>
-        <button type="button">Go back</button>
-        <img
-          src={`https://image.tmdb.org/t/p/w500${films.poster_path}`}
-          alt=""
-          width="350px"
-        />
-        <p>{films.original_title}</p>
+      <div className={s.detailes_page}>
+        <div>
+          <button type="button">Go back</button>
+          <img
+            src={`https://image.tmdb.org/t/p/w500${films.poster_path}`}
+            alt=""
+            width="350px"
+            className={s.img}
+          />
+        </div>
+        <div className={s.page_overview}>
+          <h2>{films.original_title}</h2>
+          <p>User Score: </p>
+          <h3>Overview</h3>
+          <p>{films.overview}</p>
+          <h3>Genres: </h3>
+          {/* {films.genres.map((genre) => genre.name).join(" ")} */}
+        </div>
       </div>
+      <p>Additional information</p>
       <Switch>
         <Route path="/cast">
-          <Cast />
+          <Link>
+            <Cast />
+          </Link>
         </Route>
-        {/* <Route path="/reviews">
-          <Reviews />
-        </Route> */}
+        <Route path="/reviews">
+          <Link>
+            <Reviews />
+          </Link>
+        </Route>
       </Switch>
     </div>
   );

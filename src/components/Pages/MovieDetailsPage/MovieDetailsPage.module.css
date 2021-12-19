@@ -15,3 +15,16 @@
   max-width: calc(100vw - 48px);
   max-height: calc(100vh - 24px);
 }
+.detailes_page {
+  display: flex;
+  margin-left: 10px;
+  margin-top: 15px;
+}
+.img {
+  min-width: 250px;
+  margin-top: 5px;
+}
+.page_overview {
+  margin-left: 10px;
+  margin-top: 20px;
+}
