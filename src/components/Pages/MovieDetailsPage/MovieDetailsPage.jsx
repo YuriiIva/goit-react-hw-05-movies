@@ -8,7 +8,7 @@ import { fetchFilmsId } from "../../../services/Api";
 import s from "./MovieDetailsPage.module.css";
 
 const MovieDetailsPage = ({ onCloseMovie }) => {
-  const [films, setFilms] = useState([]);
+  const [films, setFilms] = useState(null);
   const [error, setError] = useState("");
   const { movieId } = useParams();
 
@@ -16,7 +16,7 @@ const MovieDetailsPage = ({ onCloseMovie }) => {
     const getMoviesById = async () => {
       try {
         const movies = await fetchFilmsId(movieId);
-        console.log("getMovies", movies);
+
         setFilms(movies);
       } catch (error) {}
     };
@@ -24,40 +24,51 @@ const MovieDetailsPage = ({ onCloseMovie }) => {
   }, [movieId]);
 
   return (
-    <div className={s.modal}>
-      <div className={s.detailes_page}>
+    films && (
+      <div className={s.modal}>
         <div>
           <button type="button">Go back</button>
+        </div>
+
+        <div className={s.detailes_page}>
           <img
             src={`https://image.tmdb.org/t/p/w500${films.poster_path}`}
             alt=""
             width="350px"
             className={s.img}
           />
+
+          <div className={s.page_overview}>
+            <h2>{films.original_title || films.name}</h2>
+            <p>User Score: {films.vote_average * 10} %</p>
+            <h3>Overview</h3>
+            <p>{films.overview}</p>
+            <h3>Genres: </h3>
+            <p>{films.genres.map((genre) => genre.name).join(", ")}</p>
+          </div>
         </div>
-        <div className={s.page_overview}>
-          <h2>{films.original_title}</h2>
-          <p>User Score: </p>
-          <h3>Overview</h3>
-          <p>{films.overview}</p>
-          <h3>Genres: </h3>
-          {/* {films.genres.map((genre) => genre.name).join(" ")} */}
+        <p>Additional information</p>
+        <div className="infomation">
+          <ul>
+            <li>
+              <Link to={`/movies/${movieId}/cast`}>Cast</Link>
+            </li>
+            <li>
+              <Link to={`/movies/${movieId}/reviews`}>Reviews</Link>
+            </li>
+          </ul>
+
+          <Switch>
+            <Route exact path="/movies/:movieId/cast">
+              <Cast />
+            </Route>
+            <Route path="/movies/:movieId/reviews">
+              <Reviews />
+            </Route>
+          </Switch>
         </div>
       </div>
-      <p>Additional information</p>
-      <Switch>
-        <Route path="/cast">
-          <Link>
-            <Cast />
-          </Link>
-        </Route>
-        <Route path="/reviews">
-          <Link>
-            <Reviews />
-          </Link>
-        </Route>
-      </Switch>
-    </div>
+    )
   );
 };
 

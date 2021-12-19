@@ -9,7 +9,7 @@ const fetchSearchFilms = async (q) => {
 };
 
 const fetchFilms = async () => {
-  const res = await fetch(`${BASE_URL}/trending/movie/day?api_key=${API_KEY}`);
+  const res = await fetch(`${BASE_URL}/trending/all/week?api_key=${API_KEY}`);
   return res.ok ? res.json() : Promise.reject(new Error(res.statusText));
 };
 
@@ -18,5 +18,25 @@ const fetchFilmsId = async (movie_id) => {
   return res.ok ? res.json() : Promise.reject(new Error(res.statusText));
 };
 
-export { fetchFilms, fetchSearchFilms, fetchFilmsId };
+const fetchFilmsInf = async (movie_id) => {
+  const res = await fetch(
+    `${BASE_URL}/movie/${movie_id}/credits?api_key=${API_KEY}`
+  );
+  return res.ok ? res.json() : Promise.reject(new Error(res.statusText));
+};
+
+const fetchFilmsRew = async (movie_id) => {
+  const res = await fetch(
+    `${BASE_URL}/movie/${movie_id}/reviews?api_key=${API_KEY}`
+  );
+  return res.ok ? res.json() : Promise.reject(new Error(res.statusText));
+};
+
+export {
+  fetchFilms,
+  fetchSearchFilms,
+  fetchFilmsId,
+  fetchFilmsInf,
+  fetchFilmsRew,
+};
 // https://api.themoviedb.org/3/movie/$2108?api_key=1f37c9d1204318c8a24c8b0a5ae713a0

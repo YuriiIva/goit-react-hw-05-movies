@@ -5,20 +5,23 @@ import { Route } from "react-router-dom";
 import { fetchSearchFilms } from "../../../services/Api";
 // import MovieDetailsPage from "../MovieDetailsPage/MovieDetailsPage";
 import s from "./MoviesPage.module.css";
+import RenderList from "../../RenderList/RenderList";
 
 const MoviesPage = () => {
-  const [serchMovie, setSerchMovie] = useState({});
+  const [films, setFilms] = useState([]);
+  const [serchMovie, setSerchMovie] = useState("");
   const [imputMovie, setImputMovie] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (!imputMovie) return false;
+    if (!serchMovie) return false;
 
     const getMovie = async () => {
       try {
-        const movie = await fetchSearchFilms(imputMovie);
-        setSerchMovie(movie);
+        const movies = await fetchSearchFilms(serchMovie);
+
+        setFilms([...movies.results]);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -26,15 +29,13 @@ const MoviesPage = () => {
       }
     };
     getMovie();
-  }, [imputMovie]);
+  }, [serchMovie]);
 
   const onInpuFilm = (e) => {
     e.preventDefault();
-    // setImputMovie(e.target.value);
+    setSerchMovie(imputMovie);
   };
-  const handleChange = (e) => {
-    setImputMovie(e.target.value);
-  };
+
   return (
     <div>
       <form action="" className={s.form} onSubmit={onInpuFilm}>
@@ -43,7 +44,7 @@ const MoviesPage = () => {
           name=""
           id=""
           value={imputMovie}
-          onChange={handleChange}
+          onChange={(e) => setImputMovie(e.target.value)}
           autoFocus
           placeholder="Search movie"
         />
@@ -51,6 +52,7 @@ const MoviesPage = () => {
           Search
         </button>
       </form>
+      <RenderList films={films} />
     </div>
   );
 };

@@ -6,6 +6,7 @@ import Header from "../common/Header/Header";
 import Movies from "../Pages/MoviesPage/MoviesPage";
 import NoFoundPage from "../Pages/NoFoundPage/NoFoundPage";
 import MovieDetailsPage from "../Pages/MovieDetailsPage/MovieDetailsPage";
+import Cast from "../Pages/MovieDetailsPage/Cast/Cast";
 
 const App = () => {
   // const REQUESTS = {
@@ -30,6 +31,7 @@ const App = () => {
         <Route exact path="/movies">
           <Movies />
         </Route>
+
         <Route path="/movies/:movieId">
           <MovieDetailsPage />
         </Route>
