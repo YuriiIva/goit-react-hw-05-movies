@@ -6,7 +6,7 @@ const Header = () => {
   return (
     <header className="App-header">
       <NavLink to="/" activeClassName="active" exact>
-        <span>{}icon</span> Home
+        Home
       </NavLink>
       <NavLink to="/movies" activeClassName="active">
         Movies

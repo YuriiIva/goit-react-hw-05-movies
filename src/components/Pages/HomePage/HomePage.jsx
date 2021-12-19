@@ -4,7 +4,7 @@ import RenderList from "../../RenderList/RenderList";
 
 const HomePage = () => {
   const [films, setFilms] = useState([]);
-  const [movieId, setMovieId] = useState(null);
+
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isMovieOpen, setIsMovieOpen] = useState(false);
@@ -15,7 +15,6 @@ const HomePage = () => {
       try {
         const { results } = await fetchFilms();
         setFilms([...results]);
-        console.log(results);
       } catch (error) {
         setError(error.message);
       } finally {

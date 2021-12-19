@@ -39,4 +39,3 @@ export {
   fetchFilmsInf,
   fetchFilmsRew,
 };
-// https://api.themoviedb.org/3/movie/$2108?api_key=1f37c9d1204318c8a24c8b0a5ae713a0

@@ -8,11 +8,10 @@ const Reviews = () => {
   const { movieId } = useParams();
 
   useEffect(() => {
-    console.log("movieIdAAA", movieId);
     const getRewiewers = async () => {
       try {
         const rewiewersSearch = await fetchFilmsRew(movieId);
-        console.log("rewiewersSearch", rewiewersSearch.results);
+
         setReviewers([...rewiewersSearch.results]);
       } catch (error) {}
     };
@@ -21,12 +20,18 @@ const Reviews = () => {
 
   return (
     <div>
-      {reviewers.map((reviewer) => (
-        <div>
-          <h4>Author: {reviewer.author}</h4>
-          <p>{reviewer.content}</p>
-        </div>
-      ))}
+      {
+        //   if(!reviewers.length) {
+        //    return    <p>We don't have any reviewers</p>
+
+        //   }
+        reviewers.map((reviewer) => (
+          <div>
+            <h4>Author: {reviewer.author}</h4>
+            <p>{reviewer.content}</p>
+          </div>
+        ))
+      }
     </div>
   );
 };

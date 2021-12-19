@@ -6,13 +6,12 @@ import { fetchFilmsInf } from "../../../../services/Api";
 const Cast = () => {
   const [casts, setCasts] = useState([]);
   const { movieId } = useParams();
-  console.log("movieId", movieId);
 
   useEffect(() => {
     const getMovieCast = async () => {
       try {
         const castSearch = await fetchFilmsInf(movieId);
-        console.log("cast.crew", castSearch);
+
         setCasts([...castSearch.cast]);
       } catch (error) {}
     };

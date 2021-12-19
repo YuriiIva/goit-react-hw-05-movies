@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const RenderList = ({ films }) => {
-  console.log("films", films);
   return (
     <div>
       <ul>

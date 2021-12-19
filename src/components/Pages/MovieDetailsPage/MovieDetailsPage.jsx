@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
-import { Route, useParams, Switch, Link } from "react-router-dom";
+import {
+  Route,
+  useParams,
+  Switch,
+  NavLink,
+  useRouteMatch,
+  useHistory,
+} from "react-router-dom";
 
 import Cast from "./Cast/Cast";
 import Reviews from "./Reviews/Reviews";
@@ -11,6 +18,10 @@ const MovieDetailsPage = ({ onCloseMovie }) => {
   const [films, setFilms] = useState(null);
   const [error, setError] = useState("");
   const { movieId } = useParams();
+  const match = useRouteMatch();
+  const history = useHistory();
+
+  console.log("match", match);
 
   useEffect(() => {
     const getMoviesById = async () => {
@@ -23,11 +34,17 @@ const MovieDetailsPage = ({ onCloseMovie }) => {
     getMoviesById();
   }, [movieId]);
 
+  const handelGoBack = () => {
+    history.goBack();
+  };
+
   return (
     films && (
       <div className={s.modal}>
         <div>
-          <button type="button">Go back</button>
+          <button type="button" onClick={handelGoBack}>
+            Go back
+          </button>
         </div>
 
         <div className={s.detailes_page}>
@@ -47,22 +64,27 @@ const MovieDetailsPage = ({ onCloseMovie }) => {
             <p>{films.genres.map((genre) => genre.name).join(", ")}</p>
           </div>
         </div>
+        <hr />
         <p>Additional information</p>
         <div className="infomation">
           <ul>
             <li>
-              <Link to={`/movies/${movieId}/cast`}>Cast</Link>
+              <NavLink to={`${match.url}/cast`} activeClassName="active">
+                Cast
+              </NavLink>
             </li>
             <li>
-              <Link to={`/movies/${movieId}/reviews`}>Reviews</Link>
+              <NavLink to={`${match.url}/reviews`} activeClassName="active">
+                Reviews
+              </NavLink>
             </li>
           </ul>
 
           <Switch>
-            <Route exact path="/movies/:movieId/cast">
+            <Route exact path={`${match.path}/cast`}>
               <Cast />
             </Route>
-            <Route path="/movies/:movieId/reviews">
+            <Route path={`${match.path}/reviews`}>
               <Reviews />
             </Route>
           </Switch>
