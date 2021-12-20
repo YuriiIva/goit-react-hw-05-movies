@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, lazy, Suspense } from "react";
 import {
   Route,
   useParams,
@@ -8,20 +8,23 @@ import {
   useHistory,
 } from "react-router-dom";
 
-import Cast from "./Cast/Cast";
-import Reviews from "./Reviews/Reviews";
+// import Cast from "./Cast/Cast";
+// import Reviews from "./Reviews/Reviews";
 import { fetchFilmsId } from "../../../services/Api";
+import ErrorMsg from "../../common/ErrorMsg/ErrorMsg";
+import Loader from "../../common/Loader/Loader";
 
 import s from "./MovieDetailsPage.module.css";
 
+const Cast = lazy(() => import("./Cast/Cast"));
+const Reviews = lazy(() => import("./Reviews/Reviews"));
+
 const MovieDetailsPage = ({ onCloseMovie }) => {
   const [films, setFilms] = useState(null);
-  const [error, setError] = useState("");
+
   const { movieId } = useParams();
   const match = useRouteMatch();
   const history = useHistory();
-
-  console.log("match", match);
 
   useEffect(() => {
     const getMoviesById = async () => {
@@ -29,7 +32,9 @@ const MovieDetailsPage = ({ onCloseMovie }) => {
         const movies = await fetchFilmsId(movieId);
 
         setFilms(movies);
-      } catch (error) {}
+      } catch (error) {
+        ErrorMsg(error.message);
+      }
     };
     getMoviesById();
   }, [movieId]);
@@ -79,15 +84,16 @@ const MovieDetailsPage = ({ onCloseMovie }) => {
               </NavLink>
             </li>
           </ul>
-
-          <Switch>
-            <Route exact path={`${match.path}/cast`}>
-              <Cast />
-            </Route>
-            <Route path={`${match.path}/reviews`}>
-              <Reviews />
-            </Route>
-          </Switch>
+          <Suspense fallback={<Loader />}>
+            <Switch>
+              <Route exact path={`${match.path}/cast`}>
+                <Cast />
+              </Route>
+              <Route path={`${match.path}/reviews`}>
+                <Reviews />
+              </Route>
+            </Switch>
+          </Suspense>
         </div>
       </div>
     )

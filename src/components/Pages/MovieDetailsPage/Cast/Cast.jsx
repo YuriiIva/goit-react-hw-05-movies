@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchFilmsInf } from "../../../../services/Api";
 
+import ErrorMsg from "../../../common/ErrorMsg/ErrorMsg";
+
 const Cast = () => {
   const [casts, setCasts] = useState([]);
   const { movieId } = useParams();
@@ -13,7 +15,9 @@ const Cast = () => {
         const castSearch = await fetchFilmsInf(movieId);
 
         setCasts([...castSearch.cast]);
-      } catch (error) {}
+      } catch (error) {
+        ErrorMsg(error.message);
+      }
     };
     getMovieCast();
   }, [movieId]);

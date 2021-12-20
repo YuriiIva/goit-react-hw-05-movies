@@ -2,6 +2,8 @@ import { fetchFilms } from "../../../services/Api";
 import { useEffect, useState } from "react";
 import RenderList from "../../RenderList/RenderList";
 
+import ErrorMsg from "../../common/ErrorMsg/ErrorMsg";
+
 const HomePage = () => {
   const [films, setFilms] = useState([]);
 
@@ -16,7 +18,7 @@ const HomePage = () => {
         const { results } = await fetchFilms();
         setFilms([...results]);
       } catch (error) {
-        setError(error.message);
+        ErrorMsg(error.message);
       } finally {
         setIsLoading(false);
       }

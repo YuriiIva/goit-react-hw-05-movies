@@ -1,44 +1,46 @@
-import { useState, useEffect } from "react";
+import { lazy, Suspense } from "react";
 import { Route, Switch } from "react-router-dom";
+import Loader from "../common/Loader/Loader";
 
-import HomePage from "../Pages/HomePage/HomePage";
-import Header from "../common/Header/Header";
-import Movies from "../Pages/MoviesPage/MoviesPage";
-import NoFoundPage from "../Pages/NoFoundPage/NoFoundPage";
-import MovieDetailsPage from "../Pages/MovieDetailsPage/MovieDetailsPage";
-import Cast from "../Pages/MovieDetailsPage/Cast/Cast";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+// import HomePage from "../Pages/HomePage/HomePage";
+// import Header from "../common/Header/Header";
+// import Movies from "../Pages/MoviesPage/MoviesPage";
+// import NoFoundPage from "../Pages/NoFoundPage/NoFoundPage";
+// import MovieDetailsPage from "../Pages/MovieDetailsPage/MovieDetailsPage";
+
+const HomePage = lazy(() => import("../Pages/HomePage/HomePage"));
+const Header = lazy(() => import("../common/Header/Header"));
+const Movies = lazy(() => import("../Pages/MoviesPage/MoviesPage"));
+const NoFoundPage = lazy(() => import("../Pages/NoFoundPage/NoFoundPage"));
+const MovieDetailsPage = lazy(() =>
+  import("../Pages/MovieDetailsPage/MovieDetailsPage")
+);
 
 const App = () => {
-  // const REQUESTS = {
-  //   TRANDING: "/trending/movie/day",
-  //   // SEARCH: '/search/movie',
-  //   INFO: `/movie/${movieId}`,
-  //   CREDITS: `/movie/${movieId}/credits`,
-  //   REVIEWS: `/movie/${movieId}/reviews`,
-  // };
-
-  //   const onCloseMovie = () => {
-  //     setIsMovieOpen(false);
-  //   };
-
   return (
     <div>
-      <Header />
-      <Switch>
-        <Route exact path="/">
-          <HomePage />
-        </Route>
-        <Route exact path="/movies">
-          <Movies />
-        </Route>
+      <Suspense fallback={<Loader />}>
+        <Header />
+        <Switch>
+          <Route exact path="/">
+            <HomePage />
+          </Route>
+          <Route exact path="/movies">
+            <Movies />
+          </Route>
 
-        <Route path="/movies/:movieId">
-          <MovieDetailsPage />
-        </Route>
-        <Route>
-          <NoFoundPage />
-        </Route>
-      </Switch>
+          <Route path="/movies/:movieId">
+            <MovieDetailsPage />
+          </Route>
+          <Route>
+            <NoFoundPage />
+          </Route>
+        </Switch>
+      </Suspense>
+      <ToastContainer position="top-center" autoClose={3000} />
     </div>
   );
 };
