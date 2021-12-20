@@ -1,0 +1,2 @@
+(this["webpackJsonpgoit-react-hw-05-movies"]=this["webpackJsonpgoit-react-hw-05-movies"]||[]).push([[7],{61:function(e,t,c){},67:function(e,t,c){"use strict";c.r(t);c(0),c(61);var s=c(7),a=c(2);t.default=function(){return Object(a.jsxs)("header",{className:"App-header",children:[Object(a.jsx)(s.c,{to:"/",activeClassName:"active",exact:!0,children:"Home"}),Object(a.jsx)(s.c,{to:"/movies",activeClassName:"active",children:"Movies"})]})}}}]);
+//# sourceMappingURL=7.7607838e.chunk.js.map
